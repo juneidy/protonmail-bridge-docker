@@ -1,0 +1,26 @@
+FROM alpine:3.16.4
+
+ARG VERSION=3.0.19
+
+ADD https://github.com/ProtonMail/proton-bridge/archive/refs/tags/v${VERSION}.tar.gz /
+
+RUN tar -xzf /v${VERSION}.tar.gz
+
+WORKDIR /proton-bridge-${VERSION}
+
+RUN apk --update upgrade \
+	&& apk --no-cache --no-progress add \
+	bash \
+	cmake \
+	curl \
+	g++ \
+	git \
+	go \
+	libsecret-dev \
+	make \
+	ninja \
+	pkgconfig \
+	zip \
+	&& rm -rf /var/cache/apk/*
+
+RUN make build-nogui
