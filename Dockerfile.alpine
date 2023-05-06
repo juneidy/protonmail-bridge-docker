@@ -1,3 +1,33 @@
+FROM alpine:3.17.3 as gluon-builder
+
+ARG VERSION=0.14.1
+
+ADD https://github.com/ProtonMail/gluon/archive/refs/tags/v${VERSION}.tar.gz /
+
+RUN tar -xzf /v${VERSION}.tar.gz
+
+WORKDIR /gluon-${VERSION}
+
+RUN apk --update upgrade \
+	&& apk --no-cache --no-progress add \
+		git \
+		curl \
+		zip \
+		gcc \
+		cmake \
+	&& rm -rf /var/cache/apk/*
+
+RUN git clone https://github.com/microsoft/vcpkg.git internal/parser/extern/vcpkg/
+
+WORKDIR /gluon-${VERSION}/internal/parser/extern/vcpkg
+
+RUN git checkout 5f82fa45df07a446bab57f65479f3d2df797f408
+
+RUN internal/parser/extern/vcpkg/bootstrap-vcpkg.sh
+
+RUN cmake -B build -S internal/parser -G Ninja -W no-dev -DCMAKE_BUILD_TYPE=Release -DVCPKG_BUILD_TYPE=release
+
+
 FROM alpine:3.17.3
 
 ARG VERSION=3.0.19
@@ -10,17 +40,17 @@ WORKDIR /proton-bridge-${VERSION}
 
 RUN apk --update upgrade \
 	&& apk --no-cache --no-progress add \
-	bash \
-	cmake \
-	curl \
-	g++ \
-	git \
-	go \
-	libsecret-dev \
-	make \
-	ninja \
-	pkgconfig \
-	zip \
+		bash \
+		cmake \
+		curl \
+		g++ \
+		git \
+		go \
+		libsecret-dev \
+		make \
+		ninja \
+		pkgconfig \
+		zip \
 	&& rm -rf /var/cache/apk/*
 
 RUN make build-nogui

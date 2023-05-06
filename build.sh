@@ -1,5 +1,5 @@
 #!/bin/bash
 
-ver=3.0.19
+ver=3.1.2
 
-docker build -t juneidy/protonmail-bridge:${ver}-2 --build-arg VERSION=$ver .
+docker build -t juneidy/protonmail-bridge:${ver} --build-arg VERSION=$ver .
