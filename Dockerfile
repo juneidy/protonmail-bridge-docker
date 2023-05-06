@@ -28,6 +28,7 @@ RUN apt-get update; \
 	libsecret-1-0 \
 	gnupg \
 	pass \
+	socat \
 	; \
 	rm -rf /var/lib/apt/lists/*
 
@@ -40,8 +41,6 @@ WORKDIR /home/proton
 
 COPY init-keystore.sh /home/proton/init-keystore.sh
 
-#RUN gpg \
-#	--batch \
-#	--passphrase '' \
-#	--quick-gen-key 'ProtonMail Bridge' default default never; \
-#	pass init "ProtonMail Bridge"
+COPY entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT /entrypoint.sh
