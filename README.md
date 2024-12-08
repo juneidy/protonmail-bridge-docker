@@ -6,11 +6,6 @@ My previous attempt at making it work with
 [hydroxide](https://github.com/emersion/hydroxide) is in the `hydroxide`
 directory.
 
-`Dockerfile.alpine` was my attempt at compiling Proton Mail Bridge in `alpine`
-base image but failed due to `alpine` using `musl` instead of the usual `glibc`.
-See
-[ProtonMail/proton-bridge#333](https://github.com/ProtonMail/proton-bridge/issues/333).
-
 ## Usage
 
 You can follow the instructions

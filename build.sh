@@ -1,5 +1,5 @@
 #!/bin/bash
 
-ver=3.1.2
+ver=3.15.0
 
-docker build -t juneidy/protonmail-bridge:${ver} --build-arg VERSION=$ver .
+docker build -f alpine.Dockerfile -t juneidy/protonmail-bridge:${ver}-alpine --build-arg VERSION=$ver .
